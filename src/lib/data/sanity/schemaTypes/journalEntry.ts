@@ -105,6 +105,7 @@ export const journalEntrySchema = defineType({
           type: 'imageGallery',
           options: { modal: { type: 'dialog', width: 2 } }
         }),
+        defineArrayMember({ type: 'richTableBlock' }),
         defineArrayMember({
           type: 'image',
           options: {

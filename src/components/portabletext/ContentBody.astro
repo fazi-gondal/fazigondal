@@ -7,6 +7,7 @@ import GitHubCard from './GitHubCard.astro';
 import QuoteCallout from './QuoteCallout.astro';
 import Figure from './Figure.astro';
 import ImageGallery from './ImageGallery.astro';
+import RichTable from './RichTable.astro';
 import { renderMarkdown } from '../../lib/content/markdown';
 
 interface Props {
@@ -26,7 +27,8 @@ const components = {
     githubCard: GitHubCard,
     quoteCallout: QuoteCallout,
     image: Figure,
-    imageGallery: ImageGallery
+    imageGallery: ImageGallery,
+    richTableBlock: RichTable
   }
 };
 ---

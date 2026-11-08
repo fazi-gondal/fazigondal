@@ -1,5 +1,4 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
-import { BlockObjectInput } from '../components/BlockObjectInput';
 
 export const siteSettingsSchema = defineType({
   name: 'siteSettings',
@@ -178,7 +177,8 @@ export const siteSettingsSchema = defineType({
             { name: 'alt', title: 'Alternative text', type: 'string' },
             { name: 'caption', title: 'Caption', type: 'string' }
           ]
-        })
+        }),
+        defineArrayMember({ type: 'richTableBlock' })
       ]
     }),
     defineField({ name: 'education', type: 'array', of: [{ type: 'education' }], group: 'about', validation: (Rule) => Rule.required() }),

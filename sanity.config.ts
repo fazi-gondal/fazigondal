@@ -1,6 +1,7 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
+import { richTablePlugin } from 'sanity-plugin-rich-table';
 import { schemaTypes } from './src/lib/data/sanity/schemaTypes';
 
 // Sanity project IDs and dataset names are public identifiers used by Studio.
@@ -20,6 +21,7 @@ export default defineConfig({
   dataset,
   basePath: '/studio',
   plugins: [
+    richTablePlugin({}),
     structureTool({
       structure: (S) =>
         S.list()

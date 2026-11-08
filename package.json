@@ -40,6 +40,7 @@
     "sanitize-html": "^2.14.0",
     "sanity": "^5.31.2",
     "sanity-plugin-markdown": "^7.0.4",
+    "sanity-plugin-rich-table": "^1.2.2",
     "simple-icons": "^16.0.0",
     "styled-components": "^6.5.3",
     "typescript": "^5.9.0",
