@@ -1,11 +1,13 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
 import { ImagesIcon } from '@sanity/icons';
+import { BlockObjectInput } from '../components/BlockObjectInput';
 
 export const imageGallerySchema = defineType({
   name: 'imageGallery',
   title: 'Image Gallery',
   type: 'object',
   icon: ImagesIcon,
+  components: { input: BlockObjectInput },
   options: {
     modal: { type: 'dialog', width: 2 }
   },

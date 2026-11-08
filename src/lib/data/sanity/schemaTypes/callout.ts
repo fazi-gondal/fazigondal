@@ -1,11 +1,13 @@
 import { defineField, defineType } from 'sanity';
 import { InfoOutlineIcon } from '@sanity/icons';
+import { BlockObjectInput } from '../components/BlockObjectInput';
 
 export const calloutSchema = defineType({
   name: 'callout',
   title: 'Callout banner',
   type: 'object',
   icon: InfoOutlineIcon,
+  components: { input: BlockObjectInput },
   options: {
     modal: { type: 'dialog', width: 1 }
   },

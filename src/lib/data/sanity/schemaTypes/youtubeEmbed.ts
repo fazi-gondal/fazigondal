@@ -1,11 +1,13 @@
 import { defineField, defineType } from 'sanity';
 import { PlayIcon } from '@sanity/icons';
+import { BlockObjectInput } from '../components/BlockObjectInput';
 
 export const youtubeEmbedSchema = defineType({
   name: 'youtubeEmbed',
   title: 'YouTube Video',
   type: 'object',
   icon: PlayIcon,
+  components: { input: BlockObjectInput },
   options: {
     modal: { type: 'dialog', width: 1 }
   },

@@ -1,11 +1,13 @@
 import { defineField, defineType } from 'sanity';
 import { BlockquoteIcon } from '@sanity/icons';
+import { BlockObjectInput } from '../components/BlockObjectInput';
 
 export const quoteCalloutSchema = defineType({
   name: 'quoteCallout',
   title: 'Quote / Takeaway',
   type: 'object',
   icon: BlockquoteIcon,
+  components: { input: BlockObjectInput },
   options: {
     modal: { type: 'dialog', width: 1 }
   },

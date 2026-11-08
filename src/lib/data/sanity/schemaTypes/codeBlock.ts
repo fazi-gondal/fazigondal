@@ -1,11 +1,13 @@
 import { defineField, defineType } from 'sanity';
 import { CodeBlockIcon } from '@sanity/icons';
+import { BlockObjectInput } from '../components/BlockObjectInput';
 
 export const codeBlockSchema = defineType({
   name: 'codeBlock',
   title: 'Code block',
   type: 'object',
   icon: CodeBlockIcon,
+  components: { input: BlockObjectInput },
   options: {
     modal: { type: 'dialog', width: 2 }
   },

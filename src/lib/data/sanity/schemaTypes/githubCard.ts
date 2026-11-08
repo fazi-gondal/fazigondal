@@ -1,11 +1,13 @@
 import { defineField, defineType } from 'sanity';
 import { TerminalIcon } from '@sanity/icons';
+import { BlockObjectInput } from '../components/BlockObjectInput';
 
 export const githubCardSchema = defineType({
   name: 'githubCard',
   title: 'GitHub Repository Card',
   type: 'object',
   icon: TerminalIcon,
+  components: { input: BlockObjectInput },
   options: {
     modal: { type: 'dialog', width: 1 }
   },
