@@ -116,6 +116,8 @@ export const SiteSettingsSchema = z.object({
   aboutTitle: z.string(),
   aboutHeadline: z.string(),
   aboutIntro: z.string(),
+  // Rich-text bio (Portable Text array). Optional — falls back to aboutIntro.
+  aboutBio: z.array(z.record(z.any())).nullish().transform((v) => v ?? undefined),
   education: z.array(EducationSchema),
   certifications: z.array(CertificationSchema),
   contactTitle: z.string(),

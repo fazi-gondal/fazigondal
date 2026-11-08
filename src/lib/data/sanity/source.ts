@@ -121,6 +121,18 @@ const SETTINGS_FIELDS = `
   aboutTitle,
   aboutHeadline,
   aboutIntro,
+  "aboutBio": select(
+    defined(aboutBio[0]) => aboutBio[]{
+      ...,
+      _type == "image" => {
+        ...,
+        "url": asset->url,
+        "width": asset->metadata.dimensions.width,
+        "height": asset->metadata.dimensions.height
+      }
+    },
+    null
+  ),
   education[]{period, institution, qualification, detail},
   certifications[]{name, issuer, defined(url) => {url}},
   contactTitle,

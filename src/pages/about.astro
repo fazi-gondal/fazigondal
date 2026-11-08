@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import SectionHeader from '../components/system/SectionHeader.astro';
+import ContentBody from '../components/portabletext/ContentBody.astro';
 import {getSiteSettings} from '../lib/data';
 import {breadcrumbSchema} from '../lib/seo/schema';
 const settings=await getSiteSettings();
@@ -19,7 +20,13 @@ const jsonLd=[
 
   <section class="section">
     <SectionHeader number="02" title="Professional Summary"/>
-    <p class="approach">{settings.aboutIntro}</p>
+    {settings.aboutBio && settings.aboutBio.length > 0 ? (
+      <div class="about-bio">
+        <ContentBody body={settings.aboutBio} />
+      </div>
+    ) : (
+      <p class="approach">{settings.aboutIntro}</p>
+    )}
     <a class="cta-button resume-cta" href={settings.resumeUrl || '/resume.pdf'} target="_blank" rel="noopener noreferrer">View Resume ↗</a>
   </section>
 

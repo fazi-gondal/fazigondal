@@ -1,4 +1,5 @@
-import { defineField, defineType } from 'sanity';
+import { defineArrayMember, defineField, defineType } from 'sanity';
+import { BlockObjectInput } from '../components/BlockObjectInput';
 
 export const siteSettingsSchema = defineType({
   name: 'siteSettings',
@@ -108,7 +109,78 @@ export const siteSettingsSchema = defineType({
 
     defineField({ name: 'aboutTitle', type: 'text', rows: 2, group: 'about', validation: (Rule) => Rule.required() }),
     defineField({ name: 'aboutHeadline', type: 'text', rows: 3, group: 'about', validation: (Rule) => Rule.required() }),
-    defineField({ name: 'aboutIntro', type: 'text', rows: 5, group: 'about', validation: (Rule) => Rule.required() }),
+    defineField({ name: 'aboutIntro', title: 'About intro (plain text fallback)', type: 'text', rows: 5, group: 'about', validation: (Rule) => Rule.required() }),
+    defineField({
+      name: 'aboutBio',
+      title: 'About bio (rich text)',
+      description: 'Full rich-text bio for the About page. Supports headings, bold/italic, links, callouts, and code blocks. Falls back to "About intro" if empty.',
+      type: 'array',
+      group: 'about',
+      options: { modal: { type: 'dialog', width: 2 } },
+      of: [
+        {
+          type: 'block',
+          styles: [
+            { title: 'Normal', value: 'normal' },
+            { title: 'H2', value: 'h2' },
+            { title: 'H3', value: 'h3' },
+            { title: 'H4', value: 'h4' }
+          ],
+          lists: [
+            { title: 'Bullet', value: 'bullet' },
+            { title: 'Numbered', value: 'number' }
+          ],
+          marks: {
+            decorators: [
+              { title: 'Strong', value: 'strong' },
+              { title: 'Emphasis', value: 'em' },
+              { title: 'Code', value: 'code' }
+            ],
+            annotations: [
+              {
+                name: 'link',
+                type: 'object',
+                title: 'Link',
+                fields: [
+                  {
+                    name: 'href',
+                    type: 'url',
+                    title: 'URL',
+                    validation: (Rule) => Rule.uri({ scheme: ['http', 'https', 'mailto'] })
+                  },
+                  {
+                    name: 'blank',
+                    type: 'boolean',
+                    title: 'Open in new tab',
+                    initialValue: true
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        defineArrayMember({
+          type: 'callout',
+          options: { modal: { type: 'dialog', width: 1 } }
+        }),
+        defineArrayMember({
+          type: 'codeBlock',
+          options: { modal: { type: 'dialog', width: 2 } }
+        }),
+        defineArrayMember({
+          type: 'quoteCallout',
+          options: { modal: { type: 'dialog', width: 1 } }
+        }),
+        defineArrayMember({
+          type: 'image',
+          options: { hotspot: true, modal: { type: 'dialog', width: 1 } },
+          fields: [
+            { name: 'alt', title: 'Alternative text', type: 'string' },
+            { name: 'caption', title: 'Caption', type: 'string' }
+          ]
+        })
+      ]
+    }),
     defineField({ name: 'education', type: 'array', of: [{ type: 'education' }], group: 'about', validation: (Rule) => Rule.required() }),
     defineField({ name: 'certifications', type: 'array', of: [{ type: 'certification' }], group: 'about' }),
 
