@@ -13,7 +13,7 @@ export function ReadTimeInput(props: NumberInputProps) {
   }, [generatedReadTime, props.readOnly, props.value, props.onChange]);
 
   return (
-    <Stack space={2}>
+    <Stack gap={2}>
       <Card border padding={3} radius={1} tone="primary">
         <Text size={1} weight="semibold">
           {generatedReadTime} min read
