@@ -1,0 +1,56 @@
+---
+interface Props {
+  node: {
+    url?: string;
+    title?: string;
+    caption?: string;
+  };
+}
+
+const { node } = Astro.props;
+const url = node?.url || '';
+const title = node?.title || 'YouTube Video';
+const caption = node?.caption;
+
+function extractYouTubeId(rawUrl: string): string | null {
+  if (!rawUrl) return null;
+  try {
+    const parsed = new URL(rawUrl);
+    if (parsed.hostname.includes('youtu.be')) {
+      return parsed.pathname.slice(1).split('?')[0] || null;
+    }
+    if (parsed.hostname.includes('youtube.com')) {
+      if (parsed.pathname.startsWith('/shorts/') || parsed.pathname.startsWith('/embed/')) {
+        return parsed.pathname.split('/')[2] || null;
+      }
+      return parsed.searchParams.get('v');
+    }
+  } catch {
+    const match = rawUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/i);
+    return match ? match[1] : null;
+  }
+  return null;
+}
+
+const videoId = extractYouTubeId(url);
+---
+
+{videoId ? (
+  <figure class="portable-embed youtube-embed">
+    <div class="embed-header">
+      <span class="embed-label">[VIDEO STREAM]</span>
+      <span class="embed-title">{title}</span>
+    </div>
+    <div class="embed-player-frame">
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+        title={title}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        loading="lazy"
+      />
+    </div>
+    {caption && <figcaption class="embed-caption">{caption}</figcaption>}
+  </figure>
+) : null}
+

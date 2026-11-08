@@ -1,0 +1,25 @@
+---
+interface Props {
+  node: {
+    language?: string;
+    filename?: string;
+    code?: string;
+  };
+}
+
+const { node } = Astro.props;
+const language = node.language || 'text';
+const filename = node.filename;
+const code = node.code || '';
+---
+
+<div class="code-block">
+  {(filename || language) && (
+    <div class="code-header">
+      <span class="code-filename">{filename || `${language} snippet`}</span>
+      <span class="code-lang">{language}</span>
+    </div>
+  )}
+  <pre><code>{code}</code></pre>
+</div>
+

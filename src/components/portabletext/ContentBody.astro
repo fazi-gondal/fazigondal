@@ -1,0 +1,40 @@
+---
+import { PortableText } from 'astro-portabletext';
+import Callout from './Callout.astro';
+import CodeBlock from './CodeBlock.astro';
+import YouTubeEmbed from './YouTubeEmbed.astro';
+import GitHubCard from './GitHubCard.astro';
+import QuoteCallout from './QuoteCallout.astro';
+import Figure from './Figure.astro';
+import ImageGallery from './ImageGallery.astro';
+import { renderMarkdown } from '../../lib/content/markdown';
+
+interface Props {
+  body: unknown;
+}
+
+const { body } = Astro.props;
+
+const isPortableText = Array.isArray(body) && body.length > 0;
+const markdownHtml = !isPortableText && typeof body === 'string' ? renderMarkdown(body) : '';
+
+const components = {
+  type: {
+    callout: Callout,
+    codeBlock: CodeBlock,
+    youtubeEmbed: YouTubeEmbed,
+    githubCard: GitHubCard,
+    quoteCallout: QuoteCallout,
+    image: Figure,
+    imageGallery: ImageGallery
+  }
+};
+---
+
+<div class="markdown">
+  {isPortableText ? (
+    <PortableText value={body as any} components={components} />
+  ) : (
+    <Fragment set:html={markdownHtml} />
+  )}
+</div>

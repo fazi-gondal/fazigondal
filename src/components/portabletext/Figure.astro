@@ -1,0 +1,41 @@
+---
+interface Props {
+  node: {
+    url?: string;
+    asset?: { url?: string };
+    alt?: string;
+    caption?: string;
+    width?: number;
+    height?: number;
+  };
+}
+
+const { node } = Astro.props;
+const imageUrl = node?.url || node?.asset?.url || '';
+const alt = node?.alt || 'Document illustration';
+const caption = node?.caption;
+const width = node?.width;
+const height = node?.height;
+---
+
+{imageUrl ? (
+  <figure class="portable-figure">
+    <div class="figure-frame">
+      <img
+        src={imageUrl}
+        alt={alt}
+        width={width}
+        height={height}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    {caption && (
+      <figcaption class="figure-caption">
+        <span class="caption-marker">[FIG]</span>
+        <span class="caption-text">{caption}</span>
+      </figcaption>
+    )}
+  </figure>
+) : null}
+

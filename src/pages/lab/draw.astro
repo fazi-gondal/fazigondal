@@ -1,0 +1,11 @@
+---
+import ExcalidrawEditor from "../../components/ExcalidrawEditor";
+import Layout from "../../layouts/Base.astro";
+import { getSiteSettings } from "../../lib/data";
+
+const settings = await getSiteSettings();
+---
+
+<Layout title={`Interactive Canvas | ${settings.name}`} description="An interactive whiteboard for exploring system design, algorithms, architecture and programming concepts.">
+  <ExcalidrawEditor client:only="react" />
+</Layout>

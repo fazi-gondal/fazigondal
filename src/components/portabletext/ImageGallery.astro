@@ -1,0 +1,68 @@
+---
+import ImageCarousel, { type CarouselImage } from '../ImageCarousel';
+
+interface Props {
+  node: {
+    title?: string;
+    layout?: 'carousel' | 'grid-2' | 'grid-3';
+    images?: Array<{
+      url?: string;
+      asset?: { url?: string };
+      alt?: string;
+      caption?: string;
+      width?: number;
+      height?: number;
+    }>;
+  };
+}
+
+const { node } = Astro.props;
+const title = node?.title || 'GALLERY';
+const layout = node?.layout || 'carousel';
+const rawImages = node?.images || [];
+
+const images: CarouselImage[] = rawImages
+  .map((img) => ({
+    url: img.url || img.asset?.url || '',
+    alt: img.alt || 'Gallery image',
+    caption: img.caption,
+    width: img.width,
+    height: img.height
+  }))
+  .filter((img) => Boolean(img.url));
+---
+
+{images.length > 0 && (
+  <div class="portable-gallery">
+    {layout === 'carousel' ? (
+      <ImageCarousel images={images} label={title.toUpperCase()} client:visible />
+    ) : (
+      <div class="gallery-grid-wrap">
+        <div class="gallery-header">
+          <span class="gallery-marker">[GALLERY]</span>
+          <span class="gallery-title">{title}</span>
+        </div>
+        <div class={`gallery-grid gallery-${layout}`}>
+          {images.map((img, i) => (
+            <figure class="gallery-item">
+              <img
+                src={img.url}
+                alt={img.alt}
+                width={img.width}
+                height={img.height}
+                loading="lazy"
+                decoding="async"
+              />
+              {img.caption && (
+                <figcaption class="gallery-item-caption">
+                  <span>{String(i + 1).padStart(2, '0')}.</span> {img.caption}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+)}
+

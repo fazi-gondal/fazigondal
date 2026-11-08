@@ -1,0 +1,22 @@
+---
+interface Props {
+  node: {
+    tone?: 'note' | 'tip' | 'warning' | 'caution';
+    title?: string;
+    text?: string;
+  };
+}
+
+const { node } = Astro.props;
+const tone = node.tone || 'note';
+const label = tone.toUpperCase();
+---
+
+<aside class:list={['callout', `callout-${tone}`]}>
+  <div class="callout-header">
+    <span class="callout-badge">[{label}]</span>
+    {node.title && <span class="callout-title">{node.title}</span>}
+  </div>
+  {node.text && <p class="callout-text">{node.text}</p>}
+</aside>
+

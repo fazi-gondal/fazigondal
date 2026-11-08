@@ -1,0 +1,78 @@
+---
+import Icon from '../Icon.astro';
+
+interface Props {
+  node: {
+    repo: string;
+    description?: string;
+    language?: string;
+    stars?: string;
+    url?: string;
+  };
+}
+
+const { node } = Astro.props;
+const repo = node?.repo || '';
+const description = node?.description;
+const language = node?.language;
+const stars = node?.stars;
+const targetUrl = node?.url || (repo ? `https://github.com/${repo}` : '#');
+
+const langColors: Record<string, string> = {
+  python: '#3572A5',
+  typescript: '#3178c6',
+  javascript: '#f1e05a',
+  dart: '#00B4AB',
+  go: '#00ADD8',
+  golang: '#00ADD8',
+  rust: '#dea584',
+  cpp: '#f34b7d',
+  'c++': '#f34b7d',
+  c: '#555555',
+  swift: '#F05138',
+  kotlin: '#A97BFF',
+  shell: '#89e051',
+  html: '#e34c26',
+  css: '#563d7c'
+};
+
+const langKey = language ? language.toLowerCase().trim() : '';
+const dotColor = (langKey && langColors[langKey]) || 'var(--signal)';
+---
+
+{repo ? (
+  <div class="portable-card github-card">
+    <div class="github-card-top">
+      <div class="github-card-repo">
+        <Icon name="github" size={16} />
+        <a href={targetUrl} target="_blank" rel="noopener noreferrer" class="github-repo-link">
+          <strong>{repo}</strong>
+        </a>
+      </div>
+      <a href={targetUrl} target="_blank" rel="noopener noreferrer" class="github-action-btn">
+        <span>Repo ↗</span>
+      </a>
+    </div>
+
+    {description && <p class="github-card-desc">{description}</p>}
+
+    <div class="github-card-meta">
+      {language && (
+        <span class="github-meta-item github-lang">
+          <span class="lang-dot" style={`background-color: ${dotColor};`} />
+          {language}
+        </span>
+      )}
+      {stars && (
+        <span class="github-meta-item github-stars">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z" />
+          </svg>
+          {stars}
+        </span>
+      )}
+      <span class="github-source-tag">Source // GitHub</span>
+    </div>
+  </div>
+) : null}
+

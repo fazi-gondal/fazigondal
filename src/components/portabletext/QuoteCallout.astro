@@ -1,0 +1,31 @@
+---
+interface Props {
+  node: {
+    quote: string;
+    author?: string;
+    roleOrSource?: string;
+  };
+}
+
+const { node } = Astro.props;
+const quote = node?.quote || '';
+const author = node?.author;
+const roleOrSource = node?.roleOrSource;
+---
+
+{quote ? (
+  <figure class="portable-quote quote-callout">
+    <div class="quote-symbol" aria-hidden="true">“</div>
+    <blockquote class="quote-content">
+      <p>{quote}</p>
+    </blockquote>
+    {(author || roleOrSource) && (
+      <figcaption class="quote-caption">
+        {author && <strong class="quote-author">{author}</strong>}
+        {author && roleOrSource && <span class="quote-divider">//</span>}
+        {roleOrSource && <span class="quote-source">{roleOrSource}</span>}
+      </figcaption>
+    )}
+  </figure>
+) : null}
+
