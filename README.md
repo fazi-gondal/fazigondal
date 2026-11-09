@@ -1,5 +1,7 @@
 # Engineering Notebook Portfolio
 
+### Still under development
+
 A technical-publication-style portfolio built with Astro, TypeScript, React islands, Sanity, MongoDB, and Brevo.
 
 ## Architecture
