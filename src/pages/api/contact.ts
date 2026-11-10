@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { ZodError } from 'zod';
+import { z, ZodError } from 'zod';
 import {
   ContactMessageSchema,
   type ContactApiResponse
@@ -128,7 +128,7 @@ export const POST: APIRoute = async ({ request }) => {
           code: 'VALIDATION_ERROR',
           requestId,
           message: 'Please review the highlighted fields and try again.',
-          fieldErrors: error.flatten().fieldErrors
+          fieldErrors: z.flattenError(error).fieldErrors
         },
         422
       );

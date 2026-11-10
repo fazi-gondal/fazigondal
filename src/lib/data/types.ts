@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
 const optionalString = z.string().nullish().transform((value) => value ?? undefined);
-const optionalUrl = z.string().url().nullish().transform((value) => value ?? undefined);
+const optionalUrl = z.url().nullish().transform((value) => value ?? undefined);
 const optionalNumber = z.number().positive().nullish().transform((value) => value ?? undefined);
 
 export const ScreenshotSchema = z.object({
-  url: z.string().url(),
+  url: z.url(),
   alt: z.string(),
   caption: optionalString,
   width: optionalNumber,
@@ -13,7 +13,7 @@ export const ScreenshotSchema = z.object({
 });
 export type Screenshot = z.infer<typeof ScreenshotSchema>;
 
-export const ContentBodySchema = z.union([z.string(), z.array(z.record(z.any()))]).default('');
+export const ContentBodySchema = z.union([z.string(), z.array(z.record(z.string(), z.any()))]).default('');
 export type ContentBody = z.infer<typeof ContentBodySchema>;
 
 export const ProjectSchema = z.object({
@@ -84,7 +84,7 @@ export const SiteSettingsSchema = z.object({
   name: z.string(),
   role: z.string(),
   location: z.string(),
-  email: z.string().email(),
+  email: z.email(),
   github: z.string(),
   linkedin: z.string(),
   whatsappNumber: z.string(),
@@ -117,7 +117,7 @@ export const SiteSettingsSchema = z.object({
   aboutHeadline: z.string(),
   aboutIntro: z.string(),
   // Rich-text bio (Portable Text array). Optional — falls back to aboutIntro.
-  aboutBio: z.array(z.record(z.any())).nullish().transform((v) => v ?? undefined),
+  aboutBio: z.array(z.record(z.string(), z.any())).nullish().transform((v) => v ?? undefined),
   education: z.array(EducationSchema),
   certifications: z.array(CertificationSchema),
   contactTitle: z.string(),

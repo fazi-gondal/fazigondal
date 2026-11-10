@@ -15,7 +15,7 @@ const normalizeMessage = (value: string) =>
 
 const singleLine = (label: string, min: number, max: number) =>
   z
-    .string({ required_error: `${label} is required.` })
+    .string({ error: `${label} is required.` })
     .transform(normalizeSingleLine)
     .pipe(z.string().min(min, `${label} is too short.`).max(max, `${label} is too long.`));
 
@@ -30,14 +30,13 @@ export const ContactMessageSchema = z
   .object({
     name: singleLine('Name', 2, 100),
     email: z
-      .string({ required_error: 'Email is required.' })
+      .string({ error: 'Email is required.' })
       .trim()
       .toLowerCase()
-      .email('Enter a valid email address.')
-      .max(254, 'Email is too long.'),
-    subject: z.enum(CONTACT_SUBJECTS, { errorMap: () => ({ message: 'Select a valid subject.' }) }),
+      .pipe(z.email('Enter a valid email address.').max(254, 'Email is too long.')),
+    subject: z.enum(CONTACT_SUBJECTS, 'Select a valid subject.'),
     message: z
-      .string({ required_error: 'Message is required.' })
+      .string({ error: 'Message is required.' })
       .transform(normalizeMessage)
       .pipe(z.string().min(10, 'Message must contain at least 10 characters.').max(5000, 'Message must not exceed 5,000 characters.'))
   })
